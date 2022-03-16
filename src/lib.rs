@@ -1,5 +1,2 @@
-mod widgets;
-pub use widgets::*;
-
-mod scrollbar;
-pub use scrollbar::*;
+mod scroller;
+pub use scroller::*;
