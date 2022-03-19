@@ -1,20 +1,24 @@
-use euclid::Point2D;
+use euclid::{Point2D, Size2D};
 //#[macro_use(body_view)]
 //use rui::body_view;
 use rui::*;
-use vger::VGER;
+use vger::{defs::LocalVector, VGER};
 
 #[derive(Default, Clone)]
 pub struct Scroller {
-    pub value: f32,
-    pub(crate) width: f32,
-    pub(crate) content_width: f32,
+    pub value: [f32; 2],
+    scroller_size: LocalSize,
+    content_size: LocalSize,
+    width: f32,
+    content_width: f32,
 }
 
 impl Scroller {
     pub fn new() -> Self {
         Self {
-            value: 0.0,
+            value: [0.0, 0.0],
+            scroller_size: LocalSize::default(),
+            content_size: LocalSize::default(),
             width: 0.0, // of scrollable, i.e. the restricted view of the content
             content_width: 0.0,
         }
@@ -23,37 +27,32 @@ impl Scroller {
 
 pub fn scrollable(state: State<Scroller>, content: impl View + 'static) -> impl View {
     let scr = state.get();
-    // Note TODO the scroller can only move so much that it still fits, so never 0..1,
-    // more like 0.. scrollable.width / content_width
     let scope = scr.width / scr.content_width;
+
+    let width_scope = scr.scroller_size.width / scr.content_size.width;
     //let off = LocalOffset::new(( - scr.value) * scr.content_width + scr.width, 0.0);
     // move between 0 and scr.width - scr.content_width
-    let v = (scr.value / (1.0 - scope)) * (scr.width - scr.content_width);
-    let off = LocalOffset::new(v, 0.0); //scr.width, 0.0);
+    //let v = (scr.value / (1.0 - scope)) * (scr.width - scr.content_width);
+    let x =
+        (scr.value[0] / (1.0 - width_scope)) * (scr.scroller_size.width - scr.content_size.width);
+    let off = LocalOffset::new(x, 0.0); //scr.width, 0.0);
     let state2 = state.clone();
 
     zstack((content
         .geom(move |sz| {
             state.with_mut(|state| {
-                if state.content_width != sz.width {
-                    state.content_width = sz.width;
+                if state.content_size.width != sz.width {
+                    state.content_size.width = sz.width;
                 }
             })
         })
         .offset(off),))
     .geom(move |sz| {
         state2.with_mut(|state| {
-            if state.width != sz.width {
-                state.width = sz.width;
+            if state.scroller_size.width != sz.width {
+                state.scroller_size.width = sz.width;
             }
         })
-        /*
-        if state.get().width != sz.width {
-            state.set(Scroller {
-                value: state.get().value,
-                width: sz.width,
-            })
-        }*/
     })
 }
 
@@ -79,8 +78,8 @@ where
         let scroller = self.scroller.clone();
         state(0.0, move |width| {
             let w = width.get();
-            let x = scroller.get().value * w;
-            let scope = scroller.get().width / scroller.get().content_width;
+            let x = scroller.get().value[0] * w;
+            let scope = scroller.get().scroller_size.width / scroller.get().content_size.width;
             let scroller = scroller.clone();
 
             canvas(move |sz, vger| {
@@ -104,8 +103,9 @@ where
                 }
             })
             .drag(move |off, _state| {
-                scroller
-                    .with_mut(|v| (*v).value = ((*v).value + off.x / w).clamp(0.0, 1.0 - scope));
+                scroller.with_mut(|v| {
+                    (*v).value[0] = ((*v).value[0] + off.x / w).clamp(0.0, 1.0 - scope)
+                });
             })
         })
     }
