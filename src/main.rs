@@ -11,12 +11,15 @@ fn main1() {
 
 fn main() {
     rui(state(Scroller::new(), move |state| {
-        vstack((
+        hstack((
+            //hstack((
             scrollable(
                 state.clone(),
                 rectangle().corner_radius(20.0).size([900.0, 200.0]),
             ),
-            scrollbar(state), //bind!(state, value)),
+            // vscrollbar(state.clone()),
+            //)),
+            vscrollbar(state), //bind!(state, value)),
         ))
     }))
 }
