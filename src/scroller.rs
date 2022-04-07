@@ -44,6 +44,7 @@ pub fn scrollable(state: State<Scroller>, content: impl View + 'static) -> impl 
         .geom(move |sz| {
             state.with_mut(|state| {
                 if state.content_size != sz {
+                    println!("content_size: {:?}", sz);
                     state.content_size = sz;
                 }
             })
@@ -52,6 +53,7 @@ pub fn scrollable(state: State<Scroller>, content: impl View + 'static) -> impl 
     .geom(move |sz| {
         state2.with_mut(|state| {
             if state.scroller_size != sz {
+                println!("scroller_size: {:?}", sz);
                 state.scroller_size = sz;
             }
         })
@@ -85,6 +87,7 @@ where
             let scroller = scroller.clone();
             let scroller2 = scroller.clone();
 
+            // println!("h scope: {}\tw: {}\tx: {}", scope, w, x);
             cond(
                 scope > 1.0,
                 EmptyView {},
@@ -152,47 +155,50 @@ where
         state(0.0, move |height| {
             let h = height.get();
             let y = scroller.get().value[1] * h;
-            let scope =
-                scroller.get().scroller_size.height / (scroller.get().content_size.height + 0.0001);
+            let scope = scroller.get().y_scope();
             let scroller = scroller.clone();
             let scroller2 = scroller.clone();
 
-            println!("v scope: {}", scope);
-            canvas(move |sz, vger| {
-                let c = sz.center();
-                let paint = vger.color_paint(BUTTON_BACKGROUND_COLOR);
-                vger.fill_rect(
-                    euclid::rect(
-                        c.x - SLIDER_THICKNESS / 2.0,
+            //println!("v scope: {}", scope);
+            cond(
+                scope > 1.0,
+                EmptyView {},
+                canvas(move |sz, vger| {
+                    let c = sz.center();
+                    let paint = vger.color_paint(BUTTON_BACKGROUND_COLOR);
+                    vger.fill_rect(
+                        euclid::rect(
+                            c.x - SLIDER_THICKNESS / 2.0,
+                            0.0,
+                            SLIDER_THICKNESS,
+                            sz.height(),
+                        ),
                         0.0,
-                        SLIDER_THICKNESS,
-                        sz.height(),
-                    ),
-                    0.0,
-                    paint,
-                );
-                let paint = vger.color_paint(AZURE_HIGHLIGHT);
-                vger.fill_rect(
-                    euclid::rect(c.x - SLIDER_THICKNESS / 2.0, y, SLIDER_THICKNESS, h * scope),
-                    2.0,
-                    paint,
-                );
-            })
-            .geom(move |sz| {
-                if sz.height != h {
-                    height.set(sz.height);
-                    scroller2.with_mut(|v| {
-                        if (*v).value[1] > 1.0 - scope - 0.05 {
-                            (*v).value[1] = ((*v).value[1] + 1.0).clamp(0.0, 1.0 - scope)
-                        }
+                        paint,
+                    );
+                    let paint = vger.color_paint(AZURE_HIGHLIGHT);
+                    vger.fill_rect(
+                        euclid::rect(c.x - SLIDER_THICKNESS / 2.0, y, SLIDER_THICKNESS, h * scope),
+                        2.0,
+                        paint,
+                    );
+                })
+                .geom(move |sz| {
+                    if sz.height != h {
+                        height.set(sz.height);
+                        scroller2.with_mut(|v| {
+                            if (*v).value[1] > 1.0 - scope - 0.05 {
+                                (*v).value[1] = ((*v).value[1] + 1.0).clamp(0.0, 1.0 - scope)
+                            }
+                        });
+                    }
+                })
+                .drag(move |off, _state| {
+                    scroller.with_mut(|v| {
+                        (*v).value[1] = ((*v).value[1] + off.y / h).clamp(0.0, 1.0 - scope)
                     });
-                }
-            })
-            .drag(move |off, _state| {
-                scroller.with_mut(|v| {
-                    (*v).value[1] = ((*v).value[1] + off.y / h).clamp(0.0, 1.0 - scope)
-                });
-            })
+                }),
+            )
         })
     }
 }

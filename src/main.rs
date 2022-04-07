@@ -11,15 +11,22 @@ fn main1() {
 
 fn main() {
     rui(state(Scroller::new(), move |state| {
-        hstack((
-            //hstack((
-            scrollable(
-                state.clone(),
-                rectangle().corner_radius(20.0).size([900.0, 200.0]),
-            ),
-            // vscrollbar(state.clone()),
-            //)),
-            vscrollbar(state), //bind!(state, value)),
-        ))
+        vstack(
+            (
+                hstack((
+                    vscrollbar(state.clone()),
+                    scrollable(
+                        state.clone(),
+                        rectangle()
+                            .color(GREEN_HIGHLIGHT)
+                            .corner_radius(20.0)
+                            .size([900.0, 200.0]),
+                    )
+                    .size([500.0, 800.0])
+                    .background(rectangle().color(AZURE_HIGHLIGHT_BACKGROUND)),
+                )),
+                hscrollbar(state), //bind!(state, value)),
+            ), //.padding(Auto)
+        )
     }))
 }

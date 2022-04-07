@@ -7,5 +7,6 @@ edition = "2021"
 
 [dependencies]
 rui = { path = "../rui" }
-vger = { git = "https://github.com/audulus/vger-rs" }
+vger = "0.1.5"
 euclid = "0.22.6"
+accesskit = "0.3.0"

@@ -3,6 +3,16 @@
 version = 3
 
 [[package]]
+name = "accesskit"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5e40507a4baca1c1ae78e0df4d5011ac403816be75942fe39344ee4c4d1485d5"
+dependencies = [
+ "enumset",
+ "kurbo",
+]
+
+[[package]]
 name = "adler32"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -335,6 +345,27 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9ea835d29036a4087793836fa931b08837ad5e957da9e23886b29586fb9b6650"
 
 [[package]]
+name = "enumset"
+version = "1.0.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e8b6b2301b38343c1f00b2cc5116d6c28306758344db73e3347f21aa1e60e756"
+dependencies = [
+ "enumset_derive",
+]
+
+[[package]]
+name = "enumset_derive"
+version = "0.5.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b201779d9a5dee6b1478eb1c6b9643b1fbca784ce98ac74e7f33cd1dad620058"
+dependencies = [
+ "darling",
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "euclid"
 version = "0.22.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -617,6 +648,15 @@ checksum = "8c2352bd1d0bceb871cb9d40f24360c8133c11d7486b68b5381c1dd1a32015e3"
 dependencies = [
  "libc",
  "libloading",
+]
+
+[[package]]
+name = "kurbo"
+version = "0.8.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7a53776d271cfb873b17c618af0298445c88afc52837f3e948fa3fafd131f449"
+dependencies = [
+ "arrayvec",
 ]
 
 [[package]]
@@ -1082,8 +1122,9 @@ checksum = "f1382d1f0a252c4bf97dc20d979a2fdd05b024acd7c2ed0f7595d7817666a157"
 
 [[package]]
 name = "rui"
-version = "0.1.0"
+version = "0.1.5"
 dependencies = [
+ "accesskit",
  "euclid",
  "futures",
  "vger",
@@ -1095,6 +1136,7 @@ dependencies = [
 name = "rui-extra"
 version = "0.1.0"
 dependencies = [
+ "accesskit",
  "euclid",
  "rui",
  "vger",
@@ -1255,8 +1297,9 @@ checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
 
 [[package]]
 name = "vger"
-version = "0.1.0"
-source = "git+https://github.com/audulus/vger-rs#abe8274f8cc155a9018f339354ed5ee836c05861"
+version = "0.1.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "78bc54b5a9d9cf7e41b41b800d5f1bb6130b8bffed7abdad0bc502f015fc49b0"
 dependencies = [
  "euclid",
  "fontdue",
