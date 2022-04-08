@@ -1,6 +1,5 @@
 use rui::*;
-//use rui_extra::scroller::*;
-use rui_extra::*;
+use rui_stuff::*;
 /*
 fn main1() {
     rui(state(Scroller::new(), move |state| {
