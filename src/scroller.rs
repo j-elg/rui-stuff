@@ -1,8 +1,4 @@
-use euclid::{Point2D, Size2D};
-//#[macro_use(body_view)]
-//use rui::body_view;
 use rui::*;
-use vger::{defs::LocalVector, VGER};
 
 #[derive(Default, Clone)]
 pub struct Scroller {
@@ -58,10 +54,8 @@ pub fn scrollable(scroller: State<Scroller>, content: impl View + 'static) -> im
 }
 
 const SLIDER_THICKNESS: f32 = 20.0;
-const SLIDER_THUMB_RADIUS: f32 = 10.0;
 
 pub fn hscrollbar(scroller: State<Scroller>) -> impl View {
-    //let scroller = scroller.clone();
     state(
         || 0.0,
         move |width| {
@@ -116,7 +110,6 @@ pub fn hscrollbar(scroller: State<Scroller>) -> impl View {
 }
 
 pub fn vscrollbar(scroller: State<Scroller>) -> impl View {
-    //let scroller = scroller.clone();
     state(
         || 0.0,
         move |height| {
