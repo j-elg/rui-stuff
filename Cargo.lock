@@ -1122,7 +1122,7 @@ checksum = "f1382d1f0a252c4bf97dc20d979a2fdd05b024acd7c2ed0f7595d7817666a157"
 
 [[package]]
 name = "rui"
-version = "0.1.5"
+version = "0.1.7"
 dependencies = [
  "accesskit",
  "euclid",
@@ -1297,9 +1297,9 @@ checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
 
 [[package]]
 name = "vger"
-version = "0.1.5"
+version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "78bc54b5a9d9cf7e41b41b800d5f1bb6130b8bffed7abdad0bc502f015fc49b0"
+checksum = "706e7bc2a1e897e3ca80d55f0e3694cb36413551f2e1dff5fa3e65fe4c71c0b4"
 dependencies = [
  "euclid",
  "fontdue",
