@@ -22,7 +22,6 @@ fn main() {
                             .corner_radius(20.0)
                             .size([900.0, 200.0]),
                     )
-                    .size([500.0, 800.0])
                     .background(rectangle().color(AZURE_HIGHLIGHT_BACKGROUND)),
                 )),
                 hscrollbar(state), //bind!(state, value)),
