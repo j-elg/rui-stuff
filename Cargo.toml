@@ -7,6 +7,5 @@ edition = "2021"
 
 [dependencies]
 rui = { path = "../rui" }
-vger = "0.1.5"
+vger = "0.1.7"
 euclid = "0.22.6"
-accesskit = "0.3.0"

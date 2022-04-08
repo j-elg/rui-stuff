@@ -1136,7 +1136,6 @@ dependencies = [
 name = "rui-stuff"
 version = "0.1.0"
 dependencies = [
- "accesskit",
  "euclid",
  "rui",
  "vger",
